@@ -281,17 +281,6 @@ eat(itemsToEat) {
   }
 }
 
-/*
- if(!this.equipped) {
-      this.equipped = itemsToEat;
-      this._pack.splice(index, 1);
-    } else {
-      this._pack.push(this.equipped);
-      this.equipped = itemsToEat;
-      this._pack.splice(index, 1);
-    }
-*/
-
 /**
  * Player Class Method => useItem(item)
  * -----------------------------
@@ -304,7 +293,13 @@ eat(itemsToEat) {
  * @name useItem
  * @param {Item/Weapon/Food} item   The item to use.
  */
-
+useItem(item) {
+  if(item instanceof Weapon) {
+    this.equip(item);
+  } else if( item instanceof Food) {
+    this.eat(item);
+  }
+}
 
 /**
  * Player Class Method => equippedWith()
@@ -319,8 +314,19 @@ eat(itemsToEat) {
  * @name equippedWith
  * @return {string/boolean}   Weapon name or false if nothing is equipped.
  */
+equippedWith() {
+  if(this.equipped) {
+    console.log(this.name + " is equipping " + this.equipped.itemName);
 
- }
+    return this.equipped.itemName;
+  } else {
+    console.log("Nothing is equipped");
+
+    return false;
+  }
+}
+
+} // End of Player Class
 /**
  * Class => Zombie(health, strength, speed)
  * -----------------------------
@@ -336,7 +342,15 @@ eat(itemsToEat) {
  * @property {number} speed
  * @property {boolean} isAlive      Default value should be `true`.
  */
-
+class Zombie {
+  constructor(health, strength, speed,) {
+    this._maxHealth = health;
+    this.health = health;
+    this.strength = strength;
+    this.speed = speed;
+    this.isAlive = true;
+  }
+}
 
 /**
  * Class => FastZombie(health, strength, speed)
