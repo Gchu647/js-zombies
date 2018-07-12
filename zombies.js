@@ -115,7 +115,7 @@ class Player {
     this.playerHealth = health;
     this.playerStrength = strength;
     this.playerSpeed = speed;
-    this._pack = 0;
+    this._pack = [];
     this._maxHealth = health;
   }
 
@@ -175,9 +175,7 @@ class Player {
  * @name checkPack
  */
 getPack() {
-  let packArr =[this._pack]
-
-  return packArr;
+  return this._pack;
 }
 
 /**
@@ -197,8 +195,16 @@ getPack() {
  * @param {Item/Weapon/Food} item   The item to take.
  * @return {boolean} true/false     Whether player was able to store item in pack.
  */
-takeItems(item) {
-  
+takeItem(item) {
+  if(this._pack.length < 3) {
+    this._pack.push(item);
+
+    console.log(this.playerName+ " takes " + item);
+    return true;
+  } else {
+    console.log("the pack is full so "+ item + " could not be stored");
+    return false;
+  }
 }
 
 /**
