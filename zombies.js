@@ -111,52 +111,14 @@ class Food extends Item {
  */
 class Player {
   constructor(name, health, strength, speed) {
-    this.playerName = name;
-    this.playerHealth = health;
-    this.playerStrength = strength;
-    this.playerSpeed = speed;
+    this.name = name;
+    this.health = health;
+    this.strength= strength;
+    this.speed = speed;
     this._pack = [];
     this._maxHealth = health;
-  }
-
-  get name() {
-    return this.playerName;
-  }
-
-  set name(name) {
-    this.playerName = name;
-  }
-
-  get health() {
-    return this.playerHealth;
-  }
-
-  set health(health) {
-    this.playerHealth = health;
-  }
-
-  get strength() {
-    return this.playerStrength;
-  }
-
-  set strength(strength) {
-    this.playerStrength = strength;
-  }
-
-  get speed() {
-    return this.playerSpeed;
-  }
-
-  set speed(speed) {
-    this.playerSpeed = speed;
-  }
-
-  get isAlive() {
-    return true;
-  }
-
-  get equipped() {
-    return false;
+    this.isAlive = true;
+    this.equipped = false;
   }
 
   getMaxHealth() {
@@ -232,7 +194,23 @@ takeItem(item) {
  * @param {Item/Weapon/Food} item   The item to discard.
  * @return {boolean} true/false     Whether player was able to remove item from pack.
  */
+discardItem(item) {
+  let index = this._pack.indexOf(item);
 
+  if(index === -1) {
+    console.log(item + " not found in pack");
+    return false;
+  } else {
+    this._pack.splice(index, 1);
+
+    console.log(this.playerName+ " discards " + item)
+    return true;
+  }
+}
+
+checkPack() {
+  console.log(this.getPack.toString());
+}
 
 /**
  * Player Class Method => equip(itemToEquip)
@@ -253,6 +231,20 @@ takeItem(item) {
  * @name equip
  * @param {Weapon} itemToEquip  The weapon item to equip.
  */
+equip(itemsToEquip) {
+  let index = this._pack.indexOf(itemsToEquip);
+  
+  if(itemsToEquip instanceof Weapon && index !== -1) {
+    if(!this.equipped) {
+      this.equipped = itemsToEquip;
+      this._pack.splice(index, 1);
+    } else {
+      this._pack.push(this.equipped);
+      this.equipped = itemsToEquip;
+      this._pack.splice(index, 1);
+    }
+  } 
+}
 
 
 /**
@@ -273,7 +265,32 @@ takeItem(item) {
  * @name eat
  * @param {Food} itemToEat  The food item to eat.
  */
+eat(itemsToEat) {
+  let index = this._pack.indexOf(itemsToEat);
+  
+  if(itemsToEat instanceof Food && index !== -1) {
+    let newEnergy = this.health + itemsToEat.foodEnergy;
+    console.log(newEnergy);
+    this._pack.splice(index, 1);
+    
+    if(newEnergy < this.getMaxHealth()) {
+      this.health = newEnergy;
+    } else {
+      this.health = this.getMaxHealth();
+    }
+  }
+}
 
+/*
+ if(!this.equipped) {
+      this.equipped = itemsToEat;
+      this._pack.splice(index, 1);
+    } else {
+      this._pack.push(this.equipped);
+      this.equipped = itemsToEat;
+      this._pack.splice(index, 1);
+    }
+*/
 
 /**
  * Player Class Method => useItem(item)
