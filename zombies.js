@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Class => Item(name)
  * -----------------------------
@@ -7,7 +8,16 @@
  * @param {string} name     The item's name.
  * @property {string} name
  */
+class Item {
+  constructor(name) {
+    this.itemName = name;
+  }
 
+  get name() {
+    return this.itemName;
+  }
+
+}
 
 /**
  * Class => Weapon(name, damage)
@@ -30,6 +40,16 @@
  * Weapon Extends Item Class
  * -----------------------------
  */
+class Weapon extends Item {
+  constructor(name, damage) {
+    super(name);
+    this._damage = damage;
+  }
+
+  get damage() {
+    return this._damage;
+  }
+}
 
 
 
@@ -48,13 +68,24 @@
  * @param {number} energy     The energy the food provides.
  * @property {number} energy
  */
-
-
 /**
  * Food Extends Item Class
  * -----------------------------
  */
+class Food extends Item {
+  constructor(name, energy) {
+    super(name);
+    this.foodEnergy = energy;
+  }
 
+  get energy() {
+    return this.foodEnergy;
+  }
+
+  set energy(energy) {
+    this.foodEnergy = energy;
+  }
+}
 
 
 /**
@@ -78,7 +109,59 @@
  * @property {method} getPack              Returns private variable `pack`.
  * @property {method} getMaxHealth         Returns private variable `maxHealth`.
  */
+class Player {
+  constructor(name, health, strength, speed) {
+    this.playerName = name;
+    this.playerHealth = health;
+    this.playerStrength = strength;
+    this.playerSpeed = speed;
+    this._pack = 0;
+    this._maxHealth = health;
+  }
 
+  get name() {
+    return this.playerName;
+  }
+
+  set name(name) {
+    this.playerName = name;
+  }
+
+  get health() {
+    return this.playerHealth;
+  }
+
+  set health(health) {
+    this.playerHealth = health;
+  }
+
+  get strength() {
+    return this.playerStrength;
+  }
+
+  set strength(strength) {
+    this.playerStrength = strength;
+  }
+
+  get speed() {
+    return this.playerSpeed;
+  }
+
+  set speed(speed) {
+    this.playerSpeed = speed;
+  }
+
+  get isAlive() {
+    return true;
+  }
+
+  get equipped() {
+    return false;
+  }
+
+  getMaxHealth() {
+    return this._maxHealth;
+  }
 
 /**
  * Player Class Method => checkPack()
@@ -91,7 +174,11 @@
  *
  * @name checkPack
  */
+getPack() {
+  let packArr =[this._pack]
 
+  return packArr;
+}
 
 /**
  * Player Class Method => takeItem(item)
@@ -110,7 +197,9 @@
  * @param {Item/Weapon/Food} item   The item to take.
  * @return {boolean} true/false     Whether player was able to store item in pack.
  */
-
+takeItems(item) {
+  
+}
 
 /**
  * Player Class Method => discardItem(item)
@@ -208,7 +297,7 @@
  * @return {string/boolean}   Weapon name or false if nothing is equipped.
  */
 
-
+ }
 /**
  * Class => Zombie(health, strength, speed)
  * -----------------------------
