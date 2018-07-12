@@ -1,4 +1,3 @@
-"use strict";
 /**
  * Class => Item(name)
  * -----------------------------
@@ -161,10 +160,10 @@ takeItem(item) {
   if(this._pack.length < 3) {
     this._pack.push(item);
 
-    console.log(this.playerName+ " takes " + item);
+    console.log(this.name+ " takes " + item.itemName);
     return true;
   } else {
-    console.log("the pack is full so "+ item + " could not be stored");
+    console.log("the pack is full so "+ item.itemName + " could not be stored");
     return false;
   }
 }
@@ -198,18 +197,21 @@ discardItem(item) {
   let index = this._pack.indexOf(item);
 
   if(index === -1) {
-    console.log(item + " not found in pack");
+    console.log(item.itemName + " not found in pack");
     return false;
   } else {
     this._pack.splice(index, 1);
 
-    console.log(this.playerName+ " discards " + item)
+    console.log(this.name+ " discards " + item.itemName);
     return true;
   }
 }
 
 checkPack() {
-  console.log(this.getPack.toString());
+  let pack = this.getPack().map(function(element, index, array) {
+    return element.itemName;
+  }).toString();
+  console.log("Your pack has: ", pack);
 }
 
 /**
@@ -372,6 +374,11 @@ class Zombie {
  * FastZombie Extends Zombie Class
  * -----------------------------
  */
+class FastZombie extends Zombie {
+  constructor(health, strength, speed) {
+    super(health, strength, speed);
+  }
+}
 
 
 
@@ -390,12 +397,15 @@ class Zombie {
  * @param {number} speed            The zombie's speed.
  */
 
-
 /**
  * StrongZombie Extends Zombie Class
  * -----------------------------
  */
-
+class StrongZombie extends Zombie {
+  constructor(health, strength, speed) {
+    super(health, strength, speed);
+  }
+}
 
 
 /**
@@ -418,6 +428,11 @@ class Zombie {
  * RangedZombie Extends Zombie Class
  * -----------------------------
  */
+class RangedZombie extends Zombie {
+  constructor(health, strength, speed) {
+    super(health, strength, speed);
+  }
+}
 
 
 
@@ -441,6 +456,11 @@ class Zombie {
  * ExplodingZombie Extends Zombie Class
  * -----------------------------
  */
+class ExplodingZombie extends Zombie {
+  constructor(health, strength, speed) {
+    super(health, strength, speed);
+  }
+}
 
 
 
