@@ -161,6 +161,41 @@ function Player(name, health, strength, speed) {
     } 
   }
 
+  Player.prototype.eat = function(itemsToEat) {
+    let index = this.getPack().indexOf(itemsToEat);
+  
+    if(itemsToEat instanceof Food && index !== -1) {
+      let newEnergy = this.health + itemsToEat.energy;
+      this.getPack().splice(index, 1);
+      
+      if(newEnergy < this.getMaxHealth()) {
+        this.health = newEnergy;
+      } else {
+        this.health = this.getMaxHealth();
+      }
+    }
+  }
+
+  Player.prototype.useItem = function(item) {
+    if(item instanceof Weapon) {
+      this.equip(item);
+    } else if( item instanceof Food) {
+      this.eat(item);
+    }
+  }
+
+  Player.prototype.equippedWith = function() {
+    if(this.equipped) {
+      console.log(this.name + " is equipping " + this.equipped.name);
+  
+      return this.equipped.name;
+    } else {
+      console.log("Nothing is equipped");
+  
+      return false;
+    }
+  }
+
 /**
  * Player Class Method => checkPack()
  * -----------------------------
@@ -305,6 +340,17 @@ function Player(name, health, strength, speed) {
  * @property {number} speed
  * @property {boolean} isAlive      Default value should be `true`.
  */
+function Zombie(health, strength, speed) {
+  let _maxHealth = health;
+  this.health = health;
+  this.strength = strength;
+  this.speed = speed;
+  this.isAlive = true;
+
+  this.getMaxHealth = function() {
+    return _maxHealth; 
+  }
+}
 
 
 /**
@@ -327,6 +373,12 @@ function Player(name, health, strength, speed) {
  * FastZombie Extends Zombie Class
  * -----------------------------
  */
+function FastZombie(health, strength, speed) {
+  Zombie.call(this, health, strength, speed);
+}
+
+FastZombie.prototype = Object.create(Zombie.prototype);
+FastZombie.prototype.constructor = FastZombie;
 
 
 
@@ -350,7 +402,12 @@ function Player(name, health, strength, speed) {
  * StrongZombie Extends Zombie Class
  * -----------------------------
  */
+function StrongZombie(health, strength, speed) {
+  Zombie.call(this, health, strength, speed);
+}
 
+StrongZombie.prototype = Object.create(Zombie.prototype);
+StrongZombie.prototype.constructor = StrongZombie;
 
 
 /**
@@ -373,6 +430,12 @@ function Player(name, health, strength, speed) {
  * RangedZombie Extends Zombie Class
  * -----------------------------
  */
+function RangedZombie(health, strength, speed) {
+  Zombie.call(this, health, strength, speed);
+}
+
+RangedZombie .prototype = Object.create(Zombie.prototype);
+RangedZombie .prototype.constructor =  RangedZombie;
 
 
 
@@ -396,6 +459,13 @@ function Player(name, health, strength, speed) {
  * ExplodingZombie Extends Zombie Class
  * -----------------------------
  */
+function ExplodingZombie(health, strength, speed) {
+  Zombie.call(this, health, strength, speed);
+}
+
+ExplodingZombie.prototype = Object.create(Zombie.prototype);
+ExplodingZombie.prototype.constructor =  ExplodingZombie;
+
 
 
 
