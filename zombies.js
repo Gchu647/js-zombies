@@ -108,11 +108,13 @@ function Player(name, health, strength, speed) {
   this.getMaxHealth = function() {
     return _maxHealth;
   }
+}
+  Player.prototype.takeItem = function(item) {
+    let fetchedPack = this.getPack();
 
-  this.takeItem = function(item) {
-    if(_pack.length < 3) {
-      _pack.push(item);
-
+    if(fetchedPack.length < 3) {
+      fetchedPack.push(item);
+  
       console.log(this.name + " takes in "+ item);
       return true;
     } else {
@@ -121,23 +123,43 @@ function Player(name, health, strength, speed) {
     }
   }
 
-  this.discardItem = function(item) {
-    console.log(item);
-    let index = _pack.findIndex(item);
+  Player.prototype.discardItem = function(item) {
+    let index = this.getPack().indexOf(item);
 
     if(index === -1) {
       console.log("Item not found");
       return false;
     } else {
-      _pack.splice(index, 1);
+      this.getPack().splice(index, 1);
       
       console.log(this.name + " discards " + item);
       return true;
     }
-
   }
-}
 
+  Player.prototype.checkPack = function() {
+    let pack = this.getPack().map(function(element, index, array) {
+      return element.itemName;
+    }).toString();
+    console.log("Your pack has: ", pack);
+  }
+
+  Player.prototype.equip = function(itemsToEquip) {
+    let index = this.getPack().indexOf(itemsToEquip);
+  
+    if(itemsToEquip instanceof Weapon && index !== -1) {
+      
+      if(this.equipped) {
+        this.getPack().splice(index, 1, this.equipped);
+        this.equipped = itemsToEquip;
+      } else {
+        this.getPack().splice(index, 1);
+        this.equipped = itemsToEquip;
+      }
+
+      console.log(this.name + " equips "+ this.equipped);
+    } 
+  }
 
 /**
  * Player Class Method => checkPack()
