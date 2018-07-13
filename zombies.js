@@ -7,7 +7,9 @@
  * @param {string} name     The item's name.
  * @property {string} name
  */
-
+function Item(name) {
+  this.name = name;
+}
 
 /**
  * Class => Weapon(name, damage)
@@ -24,13 +26,17 @@
  * @param {number} damage   The weapon's damage.
  * @property {number} damage
  */
-
-
 /**
  * Weapon Extends Item Class
  * -----------------------------
  */
+function Weapon(name, damage) {
+  Item.call(this, name);
+  this.damage = damage;
+}
 
+Weapon.prototype = Object.create(Item.prototype);
+Weapon.prototype.constructor = Weapon;
 
 
 /**
@@ -55,6 +61,13 @@
  * -----------------------------
  */
 
+ function Food(name, energy) {
+   Item.call(this, name);
+   this.energy = energy;
+ }
+
+ Food.prototype = Object.create(Item.prototype);
+ Food.prototype.constructor = Food;
 
 
 /**
@@ -78,6 +91,52 @@
  * @property {method} getPack              Returns private variable `pack`.
  * @property {method} getMaxHealth         Returns private variable `maxHealth`.
  */
+function Player(name, health, strength, speed) {
+  let _pack = [];
+  let _maxHealth = health;
+  this.name = name;
+  this.health = health;
+  this.strength = strength;
+  this.speed = speed;
+  this.isAlive = true;
+  this.equipped = false;
+
+  this.getPack = function() {
+    return _pack;
+  }
+
+  this.getMaxHealth = function() {
+    return _maxHealth;
+  }
+
+  this.takeItem = function(item) {
+    if(_pack.length < 3) {
+      _pack.push(item);
+
+      console.log(this.name + " takes in "+ item);
+      return true;
+    } else {
+      console.log("Pack is full. Can't take in "+item);
+      return false;
+    }
+  }
+
+  this.discardItem = function(item) {
+    console.log(item);
+    let index = _pack.findIndex(item);
+
+    if(index === -1) {
+      console.log("Item not found");
+      return false;
+    } else {
+      _pack.splice(index, 1);
+      
+      console.log(this.name + " discards " + item);
+      return true;
+    }
+
+  }
+}
 
 
 /**
